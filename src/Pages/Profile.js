@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormLabel from "../components/FormLabel";
 import validator from "validator";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
+    const navigate = useNavigate();
 
     const [profileForm, setProfileForm] = useState(
         {
@@ -15,7 +20,37 @@ const Profile = () => {
         }
     )
 
+    const [errorMessage, setErrorMessage] = useState(null);
 
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                console.log("uid", uid);
+
+            } else {
+                // User is signed out
+                navigate("/signin");
+                console.log("user is logged out")
+            }
+        });
+    }, [])
+
+
+
+    const handleLogout = () => {
+
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            navigate("/");
+            console.log("Signed out successfully")
+        }).catch((error) => {
+            // An error happened.
+        });
+    }
     const validateProfile = () => {
 
         const phNoOptions = { strictMode: true }
@@ -39,15 +74,24 @@ const Profile = () => {
 
     const saveForm = () => {
         const [valid, message] = validateProfile();
-        console.log(message);
+        if (valid) {
+            console.log(profileForm);
+            setErrorMessage(message)
+        }
+
+        else {
+            setErrorMessage(message)
+            console.log({ error: message });
+        }
 
     }
 
     return (
-        <div className="h-screen flex flex-col justify-center">
+        <div className="h-screen flex flex-col items-center justify-center">
             <div className="block text-center text-gray-700 text-2xl uppercase font-bold">Profile</div>
 
-            <div className="flex flex-wrap h-2/3 justify-center p-5 items-center">
+            <div className="flex flex-wrap  h-2/3 justify-center p-5 items-center">
+
                 <form className="w-full max-w-sm">
                     <div className="md:flex md:items-center mb-6">
                         <div className="md:w-1/3">
@@ -108,7 +152,7 @@ const Profile = () => {
                                 className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                                 id="inline-phone-number"
                                 type="text"
-                                placeholder="912345678"
+                                placeholder="+91 1234567890"
                                 required
                                 value={profileForm.pno}
                                 onChange={(e) => { setProfileForm({ ...profileForm, pno: e.target.value }) }}
@@ -170,9 +214,19 @@ const Profile = () => {
                         >
                             Save
                         </button>
+                        <button
+                            className="shadow bg-gray-300 border-purple-200 hover:bg-gray-800 hover:text-white focus:shadow-outline focus:outline-none text-gray-700 font-bold py-2 px-4 rounded"
+                            type="button"
+                            onClick={() => {
+                                handleLogout()
+                            }}
+                        >
+                            Log Out
+                        </button>
                     </div>
                 </form>
             </div>
+            <p className="text-center uppercase text-sm font-semibold text-red-500">{errorMessage}</p>
         </div>
     );
 }

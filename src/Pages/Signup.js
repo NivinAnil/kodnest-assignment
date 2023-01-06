@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import FormLabel from '../components/FormLabel';
 import validator from 'validator';
 import Form from '../components/Form';
+import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+
 export const SignUp = () => {
+    const navigate = useNavigate();
 
     const [signupInfo, setSignupInfo] = useState({
         name: '',
@@ -33,10 +38,28 @@ export const SignUp = () => {
 
     }
 
-    const submitSignupForm = () => {
+
+
+
+    const submitSignupForm = async () => {
         const [valid, message] = validateForm();
         if (valid) {
             console.log(signupInfo);
+            await createUserWithEmailAndPassword(auth, signupInfo.email, signupInfo.password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    console.log(user);
+                    navigate("/signin");
+                    user.updateProfile({ displayName: signupInfo.name })
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode, errorMessage);
+                    // ..
+                });
         }
         else {
             console.log(message);

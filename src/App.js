@@ -13,13 +13,13 @@ function App() {
       <Router>
         <Routes>
 
-          <Route exact path="/"
+          <Route exact path="/signin"
             element={<SignIn />} />
 
           <Route exact path="/signup"
             element={<SignUp />} />
 
-          <Route exact path="/profile"
+          <Route exact path="/"
             element={<Profile />} />
         </Routes>
       </Router>

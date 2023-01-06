@@ -1,10 +1,13 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import Form from '../components/Form';
 import FormLabel from '../components/FormLabel';
+import { auth } from '../firebase';
 
 const SignIn = () => {
-
+    const navigate = useNavigate();
     const [signInInfo, setSignInInfo] = useState({ email: '', password: '' });
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -28,10 +31,24 @@ const SignIn = () => {
     }
 
     const submitSignInForm = () => {
+
         const [valid, message] = validateForm();
 
         if (valid) {
             console.log(signInInfo);
+            signInWithEmailAndPassword(auth, signInInfo.email, signInInfo.password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    navigate("/profile");
+                    console.log(user);
+
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode, errorMessage)
+                });
         }
         else {
             console.log(message);
