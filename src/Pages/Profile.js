@@ -45,7 +45,7 @@ const Profile = () => {
 
         signOut(auth).then(() => {
             // Sign-out successful.
-            navigate("/");
+            navigate("/signin");
             console.log("Signed out successfully")
         }).catch((error) => {
             // An error happened.
@@ -218,7 +218,7 @@ const Profile = () => {
                             className="shadow bg-gray-300 border-purple-200 hover:bg-gray-800 hover:text-white focus:shadow-outline focus:outline-none text-gray-700 font-bold py-2 px-4 rounded"
                             type="button"
                             onClick={() => {
-                                handleLogout()
+                                handleLogout();
                             }}
                         >
                             Log Out

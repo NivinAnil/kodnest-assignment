@@ -5,6 +5,7 @@ import Form from '../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
+import { dblClick } from '@testing-library/user-event/dist/click';
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -17,6 +18,9 @@ export const SignUp = () => {
 
     const [errorMessage, setErrorMessage] = useState(null);
 
+
+
+    // form Validation
     const validateForm = () => {
 
         const passwordOption = {
@@ -38,9 +42,6 @@ export const SignUp = () => {
 
     }
 
-
-
-
     const submitSignupForm = async () => {
         const [valid, message] = validateForm();
         if (valid) {
@@ -51,7 +52,7 @@ export const SignUp = () => {
                     const user = userCredential.user;
                     console.log(user);
                     navigate("/signin");
-                    user.updateProfile({ displayName: signupInfo.name })
+                    user.updateProfile({ displayName: signupInfo.name });
                     // ...
                 })
                 .catch((error) => {
