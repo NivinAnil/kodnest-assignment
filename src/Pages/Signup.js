@@ -3,7 +3,7 @@ import FormLabel from '../components/FormLabel';
 import validator from 'validator';
 import Form from '../components/Form';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import { dblClick } from '@testing-library/user-event/dist/click';
 
@@ -45,20 +45,26 @@ export const SignUp = () => {
     const submitSignupForm = async () => {
         const [valid, message] = validateForm();
         if (valid) {
-            console.log(signupInfo);
             await createUserWithEmailAndPassword(auth, signupInfo.email, signupInfo.password)
                 .then((userCredential) => {
-                    // Signed in
                     const user = userCredential.user;
-                    console.log(user);
-                    navigate("/signin");
-                    user.updateProfile({ displayName: signupInfo.name });
-                    // ...
+                    user.displayName = signupInfo.name;
+                    updateProfile(auth.currentUser, {
+                        displayName: signupInfo.name,
+                    }).then(() => {
+                        navigate("/signin");
+                    }).catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(errorCode, errorMessage);
+                    });
+
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log(errorCode, errorMessage);
+                    setErrorMessage(errorMessage);
                     // ..
                 });
         }
@@ -70,7 +76,7 @@ export const SignUp = () => {
 
 
     return (
-        <div className="h-screen flex flex-col justify-center">
+        <div className="h-screen flex flex-col justify-center items-center ">
 
             <Form title="Sign Up">
                 <div className="md:flex md:items-center mb-6">
@@ -129,7 +135,9 @@ export const SignUp = () => {
                         />
                     </div>
                 </div>
-
+                <div>
+                    <p className='text-center m-1 text-red-400 font-semibold '>{errorMessage}</p>
+                </div>
                 <div className="flex flex-wrap justify-around">
                     <button
                         className="shadow bg-blue-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
@@ -141,11 +149,17 @@ export const SignUp = () => {
                         Register
                     </button>
                 </div>
+                <div className='text-center pt-5'>
+                    Already have a account ? <span className='text-blue-500 cursor-pointer hover:underline hover:text-blue-600'
+                        onClick={() => {
+                            navigate("/signin");
+                        }}
+                    >Sign In</span>
+                </div>
+
             </Form>
 
-            <div>
-                <p className='text-center m-1 text-red-400 font-semibold '>{errorMessage}</p>
-            </div>
+
         </div>
     )
 }

@@ -31,7 +31,6 @@ const SignIn = () => {
     }
 
     const submitSignInForm = () => {
-
         const [valid, message] = validateForm();
 
         if (valid) {
@@ -42,12 +41,13 @@ const SignIn = () => {
                     const user = userCredential.user;
                     navigate("/");
                     console.log(user);
-
                 })
                 .catch((error) => {
+                    console.log(error)
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    console.log(errorCode, errorMessage)
+                    console.log(errorCode, errorMessage);
+                    setErrorMessage(errorCode);
                 });
         }
         else {
@@ -58,7 +58,7 @@ const SignIn = () => {
 
 
     return (
-        <div className="h-screen flex flex-col justify-center">
+        <div className="h-screen flex flex-col justify-center items-center ">
             <Form title="Sign In">
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
@@ -97,26 +97,27 @@ const SignIn = () => {
                         />
                     </div>
                 </div>
-
+                <div className='m-1'>
+                    <p className='text-center m-1 text-red-400 font-semibold '>{errorMessage}</p>
+                </div>
                 <div className="flex flex-wrap justify-around">
                     <button
-                        className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                        className="shadow bg-blue-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                         type="button"
                         onClick={() => { submitSignInForm() }}
                     >
                         Login
                     </button>
-                    <button
-                        className="shadow bg-gray-300 border-purple-200 hover:bg-gray-800 hover:text-white focus:shadow-outline focus:outline-none text-gray-700 font-bold py-2 px-4 rounded"
-                        type="button"
-                    >
-                        Register
-                    </button>
+                </div>
+                <div className='text-center pt-5'>
+                    Don't have a account ? <span className='text-blue-500 cursor-pointer hover:underline hover:text-blue-600'
+                        onClick={() => {
+                            navigate("/signup");
+                        }}
+                    >Create an account</span>
                 </div>
             </Form>
-            <div>
-                <p className='text-center m-1 text-red-400 font-semibold '>{errorMessage}</p>
-            </div>
+
         </div>
     )
 
