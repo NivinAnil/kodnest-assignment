@@ -18,7 +18,7 @@ function Header({ logout }) {
 
 
     return (
-        <div className='w-screen flex bg-blue-400 p-5 absolute z-20'>
+        <div className='w-screen flex bg-blue-400 p-5  z-20'>
             <div className='uppercase flex-1 text-xl text-white font-bold'>KodNest</div>
             {logout ? <div className='mx-10 px-2 p-2 text-sm text-white font-bold cursor-pointer rounded-xl hover:shadow-md hover:bg-blue-200 hover:text-gray-500'
                 onClick={() => {

@@ -39,7 +39,7 @@ const SignIn = () => {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    navigate("/");
+                    navigate("/home");
                     console.log(user);
                 })
                 .catch((error) => {
@@ -58,7 +58,7 @@ const SignIn = () => {
 
 
     return (
-        <div className="h-screen flex flex-col justify-center items-center ">
+        <div className="pt-20 flex flex-col justify-center items-center ">
             <Form title="Sign In">
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">

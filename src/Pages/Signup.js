@@ -5,7 +5,6 @@ import Form from '../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
-import { dblClick } from '@testing-library/user-event/dist/click';
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -76,7 +75,7 @@ export const SignUp = () => {
 
 
     return (
-        <div className="h-screen flex flex-col justify-center items-center ">
+        <div className="pt-20 flex flex-col justify-center items-center ">
 
             <Form title="Sign Up">
                 <div className="md:flex md:items-center mb-6">

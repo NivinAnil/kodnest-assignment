@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FormLabel from "../components/FormLabel";
 import validator from "validator";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { ref, set, get, child } from "firebase/database";
@@ -10,7 +10,9 @@ import Form from "../components/Form";
 import Loading from "../components/Loading";
 
 const Profile = () => {
+
     const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [profileForm, setProfileForm] = useState(
         {
@@ -35,7 +37,7 @@ const Profile = () => {
                 const name = user.displayName;
                 const email = user.email;
                 const fname = name.split(" ")[0];
-                const lname = name?.split(" ").slice(1).join(" ")
+                const lname = name.split(" ").slice(1).join(" ")
 
 
                 const dbRef = ref(db);
@@ -60,18 +62,6 @@ const Profile = () => {
         });
     }, [])
 
-
-
-    const handleLogout = () => {
-
-        signOut(auth).then(() => {
-            // Sign-out successful.
-            navigate("/signin");
-            console.log("Signed out successfully")
-        }).catch((error) => {
-            // An error happened.
-        });
-    }
     const validateProfile = () => {
 
         const phNoOptions = { strictMode: true }
@@ -97,7 +87,7 @@ const Profile = () => {
         const [valid, message] = validateProfile();
         if (valid) {
             console.log(profileForm);
-            setErrorMessage(message)
+            setErrorMessage("")
 
             // saving data to firebase
 
@@ -128,11 +118,11 @@ const Profile = () => {
     return (<>
         {
             loading ?
-                <div className=" h-screen flex flex-col items-center justify-center">
+                <div className="h-screen flex flex-col items-center justify-center">
                     <Loading />
                 </div>
                 :
-                <div className=" p-28 flex flex-col items-center justify-center">
+                <div className=" py-1 flex flex-col items-center justify-center">
                     <Form title="Profile">
                         <div className="md:flex md:items-center mb-6">
                             <div className="md:w-1/3">
@@ -244,6 +234,9 @@ const Profile = () => {
                                 />
                             </div>
                         </div>
+                        <div className="m-2">
+                            <p className="text-center uppercase text-sm font-semibold text-red-500">{errorMessage}</p>
+                        </div>
                         <div className="flex flex-wrap justify-around">
                             <button
                                 className="shadow bg-gray-300 border-purple-200 hover:bg-gray-800 hover:text-white focus:shadow-outline focus:outline-none text-gray-700 font-bold py-2 px-4 rounded"
@@ -254,18 +247,8 @@ const Profile = () => {
                             >
                                 Save
                             </button>
-                            <button
-                                className="shadow bg-gray-300 border-purple-200 hover:bg-gray-800 hover:text-white focus:shadow-outline focus:outline-none text-gray-700 font-bold py-2 px-4 rounded"
-                                type="button"
-                                onClick={() => {
-                                    handleLogout();
-                                }}
-                            >
-                                Log Out
-                            </button>
                         </div>
                     </Form>
-                    <p className="text-center uppercase text-sm font-semibold text-red-500">{errorMessage}</p>
                 </div>
 
         }
