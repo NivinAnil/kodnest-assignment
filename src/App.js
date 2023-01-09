@@ -5,8 +5,8 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import { auth } from "./firebase";
+import HandleRoutes from "./components/HandleRoutes";
 import Home from "./Pages/Home";
-import Profile from "./Pages/Profile";
 import SignIn from './Pages/Signin';
 import SignUp from './Pages/Signup';
 import StepForm from "./Pages/StepForm";
@@ -33,22 +33,19 @@ function App() {
     <>
 
       <Router>
-        <Header logout={isLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} />
         <Routes>
 
-          <Route exact path="/signin"
+          <Route exact path={HandleRoutes.SIGNIN}
             element={<SignIn />} />
 
-          <Route exact path="/signup"
+          <Route exact path={HandleRoutes.SIGNUP}
             element={<SignUp />} />
 
-          <Route exact path="/"
-            element={<Profile />} />
-
-          <Route exact path="/form"
+          <Route exact path={HandleRoutes.FORM}
             element={<StepForm />} />
 
-          <Route exact path="/home"
+          <Route exact path={HandleRoutes.HOME}
             element={<Home />} />
         </Routes>
       </Router>

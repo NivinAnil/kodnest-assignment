@@ -5,6 +5,7 @@ import Form from '../components/Form';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
+import HandleRoutes from '../components/HandleRoutes';
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -51,7 +52,7 @@ export const SignUp = () => {
                     updateProfile(auth.currentUser, {
                         displayName: signupInfo.name,
                     }).then(() => {
-                        navigate("/signin");
+                        navigate(HandleRoutes.SIGNIN);
                     }).catch((error) => {
                         const errorCode = error.code;
                         const errorMessage = error.message;
@@ -151,7 +152,7 @@ export const SignUp = () => {
                 <div className='text-center pt-5'>
                     Already have a account ? <span className='text-blue-500 cursor-pointer hover:underline hover:text-blue-600'
                         onClick={() => {
-                            navigate("/signin");
+                            navigate(HandleRoutes.SIGNIN);
                         }}
                     >Sign In</span>
                 </div>

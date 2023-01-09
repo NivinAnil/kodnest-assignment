@@ -2,6 +2,9 @@ import React from 'react'
 import FormLabel from '../FormLabel'
 
 const PersonalForm = ({ formData, SetFormData }) => {
+
+
+
     return (
         <>
             <div className="md:flex md:items-center mb-6">
@@ -14,11 +17,13 @@ const PersonalForm = ({ formData, SetFormData }) => {
                         id="inline-first-name"
                         type="text"
                         placeholder=""
+                        onBlur={(e) => { }}
                         value={formData.fName}
                         onChange={(e) => { SetFormData({ ...formData, fName: e.target.value }) }}
                         required
                     />
                 </div>
+                <p></p>
             </div>
             <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">

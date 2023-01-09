@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import DataLabel from '../components/DataLabel'
 import Form from '../components/Form'
 import FormLabel from '../components/FormLabel'
+import HandleRoutes from '../components/HandleRoutes'
 import { auth, db } from '../firebase'
 
 const Home = () => {
@@ -21,7 +22,7 @@ const Home = () => {
                         const profile = snapshot.val();
                         setFormData(profile)
                     } else {
-                        navigate("/form")
+                        navigate(HandleRoutes.FORM)
                     }
                 }).catch((error) => {
                     console.error(error);
@@ -29,7 +30,7 @@ const Home = () => {
 
             } else {
                 // User is signed out
-
+                navigate(HandleRoutes.SIGNIN)
             }
 
         });
@@ -40,13 +41,15 @@ const Home = () => {
 
 
     return (
-        <div className=''>
+        <div className='flex items-center justify-center p-2'>
 
             <Form>
                 <div className='flex flex-row items-end justify-end'>
                     <button
                         onClick={() => { navigate("/form") }}
-                        className='p-1 bg-blue-400 px-3 text-white rounded-lg hover:text-white hover:bg-blue-300'>edit</button>
+                        className='p-1 bg-blue-400 px-3 text-white rounded-lg hover:text-white hover:bg-blue-300'>
+                        edit
+                    </button>
                 </div>
                 <div className='flex flex-row items-center justify-center'>
                     <FormLabel>Personal Info</FormLabel>

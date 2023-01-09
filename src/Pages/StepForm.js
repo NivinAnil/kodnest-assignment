@@ -8,6 +8,7 @@ import { auth, db } from '../firebase';
 import { child, get, ref, set } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
+import HandleRoutes from '../components/HandleRoutes';
 
 const StepForm = () => {
     const navigate = useNavigate();
@@ -57,7 +58,7 @@ const StepForm = () => {
 
             } else {
                 // User is signed out
-                navigate("/signin");
+                navigate(HandleRoutes.SIGNIN);
                 console.log("user is logged out")
             }
 
@@ -89,7 +90,7 @@ const StepForm = () => {
         set(ref(db, 'users/' + uid), {
             ...formData
         }).then(() => {
-            navigate("/home")
+            navigate(HandleRoutes.HOME)
         }).catch((e) => { console.log(e); });
 
 

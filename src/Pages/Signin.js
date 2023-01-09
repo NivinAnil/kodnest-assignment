@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import Form from '../components/Form';
 import FormLabel from '../components/FormLabel';
+import HandleRoutes from '../components/HandleRoutes';
 import { auth } from '../firebase';
 
 const SignIn = () => {
@@ -39,7 +40,7 @@ const SignIn = () => {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    navigate("/home");
+                    navigate(HandleRoutes.HOME);
                     console.log(user);
                 })
                 .catch((error) => {
@@ -112,7 +113,7 @@ const SignIn = () => {
                 <div className='text-center pt-5'>
                     Don't have a account ? <span className='text-blue-500 cursor-pointer hover:underline hover:text-blue-600'
                         onClick={() => {
-                            navigate("/signup");
+                            navigate(HandleRoutes.SIGNUP);
                         }}
                     >Create an account</span>
                 </div>
