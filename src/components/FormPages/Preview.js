@@ -50,7 +50,7 @@ const Preview = ({ formData, setPage }) => {
             alert("Collage Name can't be Empty")
             setPage(2)
         }
-        else if (formData.markDeg === "" || !validator.isNumeric(formData.mark12th)) {
+        else if (formData.markDeg === "" || !validator.isNumeric(formData.markDeg)) {
             alert("Provide valid 12th Percentage")
             setPage(2)
         }
