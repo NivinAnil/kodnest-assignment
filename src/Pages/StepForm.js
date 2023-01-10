@@ -79,7 +79,7 @@ const StepForm = () => {
             return <EduForm formData={formData} SetFormData={SetFormData} />
         }
         else if (page === 3) {
-            return <Preview formData={formData} SetFormData={SetFormData} />
+            return <Preview formData={formData} setPage={setPage} />
 
         }
     }

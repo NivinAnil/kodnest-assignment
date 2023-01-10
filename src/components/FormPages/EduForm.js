@@ -1,7 +1,11 @@
-import React from 'react'
-import FormLabel from '../FormLabel'
+import React, { useState } from 'react';
+import FormLabel from '../FormLabel';
+import validator from 'validator';
+import ErrorLabel from '../ErrorLabel';
 
 const EduForm = ({ formData, SetFormData }) => {
+    const [error, setError] = useState({})
+
     return (
         <>
             <div className="md:flex md:items-center mb-6">
@@ -28,34 +32,31 @@ const EduForm = ({ formData, SetFormData }) => {
                 <div className="md:w-2/3">
                     <input
                         className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-first-name"
+                        id="marks"
                         type="text"
                         placeholder=""
                         value={formData.mark10th}
-                        onChange={(e) => { SetFormData({ ...formData, mark10th: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({
+                                ...formData, mark10th: e.target.value
+                            })
+
+                            const mark = e.target.value;
+                            if (!validator.isNumeric(mark)) {
+                                setError({ ...error, mark10th: "Provide valid percentage" })
+                            }
+                            else {
+                                setError({ ...error, mark10th: null });
+                            }
+                        }}
                         required
                     />
+                    <ErrorLabel>{error.mark10th}</ErrorLabel>
                 </div>
             </div>
             <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                     <FormLabel>12th School Name</FormLabel>
-                </div>
-                <div className="md:w-2/3">
-                    <input
-                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                        id="inline-first-name"
-                        type="text"
-                        placeholder=""
-                        value={formData.mark12th}
-                        onChange={(e) => { SetFormData({ ...formData, mark12th: e.target.value }) }}
-                        required
-                    />
-                </div>
-            </div>
-            <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/3">
-                    <FormLabel>12th percentage</FormLabel>
                 </div>
                 <div className="md:w-2/3">
                     <input
@@ -69,6 +70,37 @@ const EduForm = ({ formData, SetFormData }) => {
                     />
                 </div>
             </div>
+            <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                    <FormLabel>12th Percentage</FormLabel>
+                </div>
+                <div className="md:w-2/3">
+                    <input
+                        className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        id="inline-first-name"
+                        type="text"
+                        placeholder=""
+                        value={formData.mark12th}
+                        onChange={(e) => {
+                            SetFormData({
+                                ...formData, mark12th: e.target.value
+                            })
+                            const mark = e.target.value;
+                            if (!validator.isNumeric(mark)) {
+                                setError({ ...error, mark12th: "Provide valid percentage" })
+                            }
+                            else {
+                                setError({ ...error, mark12th: null });
+                            }
+                        }}
+
+                        required
+                    />
+                    <ErrorLabel>{error.mark12th}</ErrorLabel>
+
+                </div>
+            </div>
+
             <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                     <FormLabel>Collage Name</FormLabel>
@@ -97,9 +129,19 @@ const EduForm = ({ formData, SetFormData }) => {
                         type="text"
                         placeholder=""
                         value={formData.markDeg}
-                        onChange={(e) => { SetFormData({ ...formData, markDeg: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, markDeg: e.target.value })
+                            const mark = e.target.value;
+                            if (!validator.isNumeric(mark)) {
+                                setError({ ...error, markDeg: "Provide valid percentage" })
+                            }
+                            else {
+                                setError({ ...error, markDeg: null });
+                            }
+                        }}
                         required
                     />
+                    <ErrorLabel>{error.markDeg}</ErrorLabel>
                 </div>
             </div>
 

@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { ref, set, get, child } from "firebase/database";
-
+import HandleRoutes from "../components/HandleRoutes";
 import Form from "../components/Form";
 import Loading from "../components/Loading";
 
@@ -55,7 +55,7 @@ const Profile = () => {
 
             } else {
                 // User is signed out
-                navigate("/signin");
+                navigate(HandleRoutes.SIGNIN);
                 console.log("user is logged out")
             }
             setLoading(false)

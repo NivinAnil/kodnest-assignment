@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FormLabel from '../FormLabel'
+import validator from 'validator'
+import ErrorLabel from '../ErrorLabel';
 
 const ContactForm = ({ formData, SetFormData }) => {
+    const [error, setError] = useState({});
     return (
         <>
             <div className="md:flex md:items-center mb-6">
@@ -16,9 +19,19 @@ const ContactForm = ({ formData, SetFormData }) => {
                         placeholder="abc@email.com"
                         required
                         value={formData.email}
-                        onChange={(e) => { SetFormData({ ...formData, email: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, email: e.target.value })
+                            const email = e.target.value;
+                            if (!validator.isEmail(email)) {
+                                setError({ ...error, email: "Provide valid first name" })
+                            }
+                            else {
+                                setError({ ...error, email: null });
+                            }
+                        }}
                         disabled
                     />
+                    <ErrorLabel>{error.email}</ErrorLabel>
                 </div>
             </div>
 
@@ -34,8 +47,18 @@ const ContactForm = ({ formData, SetFormData }) => {
                         placeholder="+91 1234567890"
                         required
                         value={formData.pno}
-                        onChange={(e) => { SetFormData({ ...formData, pno: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, pno: e.target.value })
+                            const phNo = e.target.value;
+                            if (!validator.isMobilePhone(phNo)) {
+                                setError({ ...error, phNo: "Provide valid Phone number" })
+                            }
+                            else {
+                                setError({ ...error, phNo: null });
+                            }
+                        }}
                     />
+                    <ErrorLabel>{error.phNo}</ErrorLabel>
                 </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
