@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormLabel from '../FormLabel';
 import validator from 'validator';
 import ErrorLabel from '../ErrorLabel';
 
-const EduForm = ({ formData, SetFormData }) => {
+const EduForm = ({ formData, SetFormData, setNext }) => {
     const [error, setError] = useState({})
+
+    const [errorCheck, setErrorCheck] = useState({
+        schoolName10th: false,
+        schoolName12th: false,
+        collageName: false,
+        mark10th: false,
+        mark12th: false,
+        markDeg: false
+    })
+
+
+
+
+    const validate = () => {
+        return (errorCheck.schoolName10th ||
+            errorCheck.schoolName12th ||
+            errorCheck.collageName ||
+            errorCheck.mark10th ||
+            errorCheck.mark12th ||
+            errorCheck.markDeg)
+    }
+
+    useEffect(() => {
+        const val = validate()
+        console.log(val);
+        setNext(val);
+    }, [formData])
+
 
     return (
         <>
@@ -19,9 +47,22 @@ const EduForm = ({ formData, SetFormData }) => {
                         type="text"
                         placeholder=""
                         value={formData.schoolName10th}
-                        onChange={(e) => { SetFormData({ ...formData, schoolName10th: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, schoolName10th: e.target.value })
+                            const name = e.target.value;
+                            if (!name) {
+                                setError({ ...error, schoolName10th: "Can't keep this empty" })
+                                setErrorCheck({ ...errorCheck, schoolName10th: true })
+                            }
+                            else {
+                                setError({ ...error, schoolName10th: null })
+                                setErrorCheck({ ...errorCheck, schoolName10th: false })
+                            }
+                        }}
                         required
                     />
+                    <ErrorLabel>{error.schoolName10th}</ErrorLabel>
+
                 </div>
             </div>
 
@@ -44,9 +85,12 @@ const EduForm = ({ formData, SetFormData }) => {
                             const mark = e.target.value;
                             if (!validator.isNumeric(mark)) {
                                 setError({ ...error, mark10th: "Provide valid percentage" })
+                                setErrorCheck({ ...errorCheck, mark10th: true })
                             }
                             else {
                                 setError({ ...error, mark10th: null });
+                                setErrorCheck({ ...errorCheck, mark10th: false })
+
                             }
                         }}
                         required
@@ -65,9 +109,22 @@ const EduForm = ({ formData, SetFormData }) => {
                         type="text"
                         placeholder=""
                         value={formData.schoolName12th}
-                        onChange={(e) => { SetFormData({ ...formData, schoolName12th: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, schoolName12th: e.target.value })
+                            const name = e.target.value;
+                            if (!name) {
+                                setError({ ...error, schoolName12th: "Can't keep this empty" })
+                                setErrorCheck({ ...errorCheck, schoolName10th: true })
+                            }
+                            else {
+                                setError({ ...error, schoolName12th: null })
+                                setErrorCheck({ ...errorCheck, schoolName10th: false })
+                            }
+                        }}
                         required
                     />
+                    <ErrorLabel>{error.schoolName12th}</ErrorLabel>
+
                 </div>
             </div>
             <div className="md:flex md:items-center mb-6">
@@ -88,9 +145,13 @@ const EduForm = ({ formData, SetFormData }) => {
                             const mark = e.target.value;
                             if (!validator.isNumeric(mark)) {
                                 setError({ ...error, mark12th: "Provide valid percentage" })
+                                setErrorCheck({ ...errorCheck, mark12th: true })
+
                             }
                             else {
                                 setError({ ...error, mark12th: null });
+                                setErrorCheck({ ...errorCheck, mark12th: false })
+
                             }
                         }}
 
@@ -112,9 +173,22 @@ const EduForm = ({ formData, SetFormData }) => {
                         type="text"
                         placeholder=""
                         value={formData.collageName}
-                        onChange={(e) => { SetFormData({ ...formData, collageName: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, collageName: e.target.value })
+                            const name = e.target.value;
+                            if (!name) {
+                                setError({ ...error, collageName: "Can't keep this empty" })
+                                setErrorCheck({ ...errorCheck, schoolName10th: true })
+                            }
+                            else {
+                                setError({ ...error, collageName: null })
+                                setErrorCheck({ ...errorCheck, schoolName10th: false })
+                            }
+                        }}
                         required
                     />
+                    <ErrorLabel>{error.collageName}</ErrorLabel>
+
                 </div>
             </div>
 
@@ -134,9 +208,13 @@ const EduForm = ({ formData, SetFormData }) => {
                             const mark = e.target.value;
                             if (!validator.isNumeric(mark)) {
                                 setError({ ...error, markDeg: "Provide valid percentage" })
+                                setErrorCheck({ ...errorCheck, markDeg: true })
+
                             }
                             else {
                                 setError({ ...error, markDeg: null });
+                                setErrorCheck({ ...errorCheck, markDeg: false })
+
                             }
                         }}
                         required

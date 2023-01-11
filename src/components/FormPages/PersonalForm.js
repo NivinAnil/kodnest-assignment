@@ -1,9 +1,65 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormLabel from '../FormLabel'
 import validator from "validator";
 import ErrorLabel from '../ErrorLabel';
-const PersonalForm = ({ formData, SetFormData }) => {
+const PersonalForm = ({ formData, SetFormData, setNext }) => {
     const [error, setError] = useState({})
+
+    const [errorCheck, setErrorCheck] = useState({
+        fName: true,
+        lName: true,
+        dob: true,
+        gender: true,
+    })
+
+
+
+
+    const validate = () => {
+        if (!validator.isAlpha(formData.fName, 'en-IN', { ignore: " " })) {
+            setErrorCheck({ ...errorCheck, fName: true });
+            setError({ ...error, fName: "Provide valid first name" })
+        }
+        else {
+            setErrorCheck({ ...errorCheck, fName: false });
+            setError({ ...error, fName: null })
+        }
+        if (!validator.isAlpha(formData.lName, 'en-IN', { ignore: " " })) {
+            setErrorCheck({ ...errorCheck, lName: true });
+            setError({ ...error, lName: "Provide valid Last name" })
+        }
+        else {
+            setErrorCheck({ ...errorCheck, lName: false });
+            setError({ ...error, lName: null })
+
+        }
+        if (!validator.isDate(formData.dob) || formData.dob === "") {
+            setErrorCheck({ ...errorCheck, dob: true });
+            setError({ ...error, dob: "DOB can't be empty" })
+        }
+        else {
+            setErrorCheck({ ...errorCheck, dob: false });
+            setError({ ...error, dob: null })
+
+        }
+        if (formData.gender === "") {
+            setErrorCheck({ ...errorCheck, gender: true });
+            setError({ ...error, gender: "Gender can't be empty" })
+        }
+        else {
+            setErrorCheck({ ...errorCheck, gender: false });
+            setError({ ...error, gender: null })
+        }
+
+
+        return (error.fName || error.lName || error.dob || error.gender)
+    }
+
+
+    useEffect(() => {
+
+        setNext(validate());
+    }, [formData])
 
 
     return (
@@ -78,6 +134,7 @@ const PersonalForm = ({ formData, SetFormData }) => {
 
                             if (!validator.isDate(date)) {
                                 setError({ ...error, dob: "Provide valid date" })
+
                             }
                             else {
                                 setError({ ...error, dob: null });
@@ -94,8 +151,9 @@ const PersonalForm = ({ formData, SetFormData }) => {
                 </div>
                 <div className="md:w-2/3"></div>
                 <select
-                    className="w- bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    className=" bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     value={formData.gender}
+
                     onChange={(e) => {
                         SetFormData({ ...formData, gender: e.target.value })
                         const gen = e.target.value;

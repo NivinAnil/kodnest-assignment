@@ -12,6 +12,7 @@ import HandleRoutes from '../components/HandleRoutes';
 
 const StepForm = () => {
     const navigate = useNavigate();
+    const [next, setNext] = useState(false);
     const [formData, SetFormData] = useState({
         fName: "",
         lName: "",
@@ -70,16 +71,23 @@ const StepForm = () => {
 
     const form = () => {
         if (page === 0) {
-            return <PersonalForm formData={formData} SetFormData={SetFormData} />
+            return <PersonalForm formData={formData}
+                SetFormData={SetFormData}
+                setNext={setNext} />
         }
         else if (page === 1) {
-            return <ContactForm formData={formData} SetFormData={SetFormData} />
+            return <ContactForm formData={formData}
+                SetFormData={SetFormData}
+                setNext={setNext} />
         }
         else if (page === 2) {
-            return <EduForm formData={formData} SetFormData={SetFormData} />
+            return <EduForm formData={formData}
+                SetFormData={SetFormData}
+                setNext={setNext} />
         }
         else if (page === 3) {
-            return <Preview formData={formData} setPage={setPage} />
+            return <Preview formData={formData}
+                setPage={setPage} />
 
         }
     }
@@ -118,6 +126,7 @@ const StepForm = () => {
                     <button
                         className="shadow disabled:text-gray-700 disabled:bg-gray-300 bg-blue-400 border-purple-200 hover:bg-blue-600 hover:text-white focus:shadow-outline focus:outline-none  font-bold py-2 px-4 rounded"
                         type="button"
+                        disabled={next}
                         onClick={() => {
                             if (page === title.length - 1) {
                                 console.log(formData);

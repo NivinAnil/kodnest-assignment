@@ -1,10 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormLabel from '../FormLabel'
 import validator from 'validator'
 import ErrorLabel from '../ErrorLabel';
 
-const ContactForm = ({ formData, SetFormData }) => {
+const ContactForm = ({ formData, SetFormData, setNext }) => {
     const [error, setError] = useState({});
+
+
+    const [errorCheck, setErrorCheck] = useState({
+        email: false,
+        pno: false,
+        address: false,
+    })
+
+
+
+
+    const validate = () => {
+        return (errorCheck.pno || errorCheck.address || errorCheck.email)
+    }
+
+    useEffect(() => {
+        const val = validate()
+        console.log(val);
+        setNext(val);
+    }, [formData])
+
     return (
         <>
             <div className="md:flex md:items-center mb-6">
@@ -49,16 +70,19 @@ const ContactForm = ({ formData, SetFormData }) => {
                         value={formData.pno}
                         onChange={(e) => {
                             SetFormData({ ...formData, pno: e.target.value })
-                            const phNo = e.target.value;
-                            if (!validator.isMobilePhone(phNo)) {
-                                setError({ ...error, phNo: "Provide valid Phone number" })
+                            const pno = e.target.value;
+                            if (!validator.isMobilePhone(pno, 'en-IN', { strictMode: true })) {
+                                setError({ ...error, pno: "Provide valid Phone number" })
+                                setErrorCheck({ ...errorCheck, pno: true })
                             }
                             else {
-                                setError({ ...error, phNo: null });
+                                setError({ ...error, pno: null });
+                                setErrorCheck({ ...errorCheck, pno: false })
+
                             }
                         }}
                     />
-                    <ErrorLabel>{error.phNo}</ErrorLabel>
+                    <ErrorLabel>{error.pno}</ErrorLabel>
                 </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -67,8 +91,19 @@ const ContactForm = ({ formData, SetFormData }) => {
                     <textarea
                         className="mt-2 resize-none appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         value={formData.address}
-                        onChange={(e) => { SetFormData({ ...formData, address: e.target.value }) }}
+                        onChange={(e) => {
+                            SetFormData({ ...formData, address: e.target.value })
+                            const address = e.target.value;
+                            if (!address) {
+                                setErrorCheck({ ...errorCheck, address: true })
+                            }
+                            else {
+                                setErrorCheck({ ...errorCheck, address: false })
+                            }
+                        }}
                     />
+                    <ErrorLabel>{error.address}</ErrorLabel>
+
                 </div>
             </div>
         </>

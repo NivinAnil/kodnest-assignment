@@ -46,7 +46,7 @@ const Home = () => {
             <Form>
                 <div className='flex flex-row items-end justify-end'>
                     <button
-                        onClick={() => { navigate("/form") }}
+                        onClick={() => { navigate(HandleRoutes.FORM) }}
                         className='p-1 bg-blue-400 px-3 text-white rounded-lg hover:text-white hover:bg-blue-300'>
                         edit
                     </button>
