@@ -7,7 +7,7 @@ import HandleRoutes from "./HandleRoutes";
 function Header({ isLoggedIn }) {
     const navigate = useNavigate()
     return (
-        <div className='sticky top-0'>
+        <div className='sticky top-0 '>
             <div className='w-screen flex  bg-blue-400 p-5  z-20'>
                 <div className='uppercase flex flex-row flex-1 text-xl text-white font-bold'>
                     <div>KodNest</div>

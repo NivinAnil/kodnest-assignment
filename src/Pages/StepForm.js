@@ -14,14 +14,16 @@ const StepForm = () => {
     const navigate = useNavigate();
     const [next, setNext] = useState(false);
     const [formData, SetFormData] = useState({
+        // Personal Info
         fName: "",
         lName: "",
+        gender: "",
+        dob: "",
+        // Contact Info
         email: "",
         pno: "+91",
-        dob: "",
-        gender: "",
         address: "",
-        // Education
+        // Education Info
         schoolName10th: "",
         mark10th: "",
         schoolName12th: "",
@@ -37,11 +39,12 @@ const StepForm = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
+
                 const uid = user.uid;
                 const name = user.displayName;
                 const email = user.email;
                 const fname = name.split(" ")[0];
-                const lname = name.split(" ").slice(1).join(" ")
+                const lname = name.split(" ").slice(1).join(" ") ?? " "
 
 
                 const dbRef = ref(db);

@@ -10,6 +10,7 @@ import Home from "./Pages/Home";
 import SignIn from './Pages/Signin';
 import SignUp from './Pages/Signup';
 import StepForm from "./Pages/StepForm";
+import Dashboard from "./Pages/Dashboard";
 
 
 
@@ -30,8 +31,7 @@ function App() {
 
 
   return (
-    <>
-
+    <div className="h-screen">
       <Router>
         <Header isLoggedIn={isLoggedIn} />
         <Routes>
@@ -47,9 +47,11 @@ function App() {
 
           <Route exact path={HandleRoutes.HOME}
             element={<Home />} />
+          <Route exact path={HandleRoutes.DASHBOARD}
+            element={<Dashboard />} />
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 

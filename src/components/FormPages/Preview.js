@@ -57,9 +57,9 @@ const Preview = ({ formData, setPage }) => {
 
     }
 
-    useEffect(() => {
-        validateForm();
-    }, [])
+    // useEffect(() => {
+    //     validateForm();
+    // }, [])
 
 
     return (
@@ -90,14 +90,14 @@ const Preview = ({ formData, setPage }) => {
             </div>
             <hr className='p-2' />
 
-            <DataLabel label={"10th School Name"} data={formData.schoolName10th} />
-            <DataLabel label={"10th Mark"} data={formData.mark10th} />
+            <DataLabel label="10th School Name" data={formData.schoolName10th} />
+            <DataLabel label="10th Mark" data={formData.mark10th} />
 
-            <DataLabel label={"12th School Name"} data={formData.schoolName12th} />
-            <DataLabel label={"12th Mark"} data={formData.mark12th} />
+            <DataLabel label="12th School Name" data={formData.schoolName12th} />
+            <DataLabel label="12th Mark" data={formData.mark12th} />
 
-            <DataLabel label={"Collage Name"} data={formData.collageName} />
-            <DataLabel label={"Degree Mark"} data={formData.markDeg} />
+            <DataLabel label="Collage Name" data={formData.collageName} />
+            <DataLabel label="Degree Mark" data={formData.markDeg} />
         </>
     )
 }
