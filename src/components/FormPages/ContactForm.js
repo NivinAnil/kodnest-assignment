@@ -9,8 +9,8 @@ const ContactForm = ({ formData, SetFormData, setNext }) => {
 
     const [errorCheck, setErrorCheck] = useState({
         email: false,
-        pno: true,
-        address: true,
+        pno: false,
+        address: false,
     })
 
 

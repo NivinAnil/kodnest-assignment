@@ -1,16 +1,19 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { child, get, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import HandleRoutes from '../components/HandleRoutes';
+import { Link, useNavigate } from 'react-router-dom';
+import routes from '../components/HandleRoutes';
 import { Institute, Person, Phone } from '../components/Icons';
 import NavLabel from '../components/NavLabel'
+import ProfilePage from '../components/NavPages/ProfilePage';
+import ContactPage from '../components/NavPages/ContactPage';
 import { auth, db } from '../firebase';
+import EducationPage from '../components/NavPages/EducationPage';
 
 const Dashboard = () => {
     const navigate = useNavigate();
 
-    const [selectedNav, setSelectedNav] = useState({})
+    const [selectedNav, setSelectedNav] = useState({ person: true })
 
     const [formData, SetFormData] = useState({
         // Personal Info
@@ -30,24 +33,19 @@ const Dashboard = () => {
         collageName: "",
         markDeg: "",
     })
+
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
 
                 const uid = user.uid;
-                const name = user.displayName;
-                const email = user.email;
-                const fname = name.split(" ")[0];
-                const lname = name.split(" ").slice(1).join(" ") ?? " "
-
-
                 const dbRef = ref(db);
                 get(child(dbRef, `users/${uid}`)).then((snapshot) => {
                     if (snapshot.exists()) {
                         const profile = snapshot.val();
                         SetFormData({ ...profile });
                     } else {
-                        SetFormData({ ...formData, fName: fname ?? "", lName: lname ?? "", email: email });
+                        navigate(routes.FORM)
                     }
                 }).catch((error) => {
                     console.error(error);
@@ -56,7 +54,8 @@ const Dashboard = () => {
 
             } else {
                 // User is signed out
-                navigate(HandleRoutes.SIGNIN);
+
+                navigate(routes.SIGNIN);
                 console.log("user is logged out")
             }
 
@@ -65,53 +64,45 @@ const Dashboard = () => {
 
     }, [])
     return (
-        <div className='h-[90vh] flex flex-row'>
-            <aside className="w-64 " aria-label="Sidebar">
-                <div className="px-3 py-4 overflow-y-auto  bg-blue-200 h-[90vh]">
-                    <ul className="space-y-2">
-                        <NavLabel title="Personal Data"
-                            selected={selectedNav.person}
-                            onClick={() => { setSelectedNav({ person: true }) }} >
-                            <Person />
-                        </NavLabel>
-                        <NavLabel title="Contact Data"
-                            selected={selectedNav.contact}
-                            onClick={() => { setSelectedNav({ contact: true }) }}
-                        >
-                            <Phone />
-                        </NavLabel>
-                        <NavLabel title="Education Data"
-                            selected={selectedNav.education}
-                            onClick={() => { setSelectedNav({ education: true }) }}
-                        >
-                            <Institute />
-                        </NavLabel>
-                    </ul>
+        <>
+            <div className='h-[89vh] flex flex-row'>
+                <aside className="w-1/6 top-0" aria-label="Sidebar">
+                    <div className="px-3 py-4  bg-blue-200 h-full">
+                        <h1 className='text-center uppercase'>Details</h1>
+                        <hr className='border-blue-500 font-semibold ' />
+                        <ul className="space-y-2">
+                            <NavLabel title="Personal"
+                                selected={selectedNav.person}
+                                onClick={() => { setSelectedNav({ person: true }) }} >
+                                <Person />
+                            </NavLabel>
+                            <NavLabel title="Contact"
+                                selected={selectedNav.contact}
+                                onClick={() => { setSelectedNav({ contact: true }) }}
+                            >
+                                <Phone />
+                            </NavLabel>
+                            <NavLabel title="Education"
+                                selected={selectedNav.education}
+                                onClick={() => { setSelectedNav({ education: true }) }}
+                            >
+                                <Institute />
+                            </NavLabel>
+                        </ul>
+                    </div>
+                </aside>
+
+                <div className='p-10 w-5/6 bg-blue-100 m-20 shadow-xl rounded-xl'>
+                    <div className=' text-right text-blue-400 hover:text-blue-700 cursor-pointer underline'> <Link to="/form">Edit</Link></div>
+                    {selectedNav.person && <ProfilePage data={formData} />}
+                    {selectedNav.contact && <ContactPage data={formData} />}
+                    {selectedNav.education && <EducationPage data={formData} />}
+
                 </div>
-            </aside>
 
-            <div className='p-10 w-5/6'>
-                <div className='text-right text-blue-400 hover:text-blue-700 cursor-pointer underline'> <div>Edit</div></div>
-                {selectedNav.person && <div>
-                    <h1 className='text-3xl font-semibold font-sans'>Personal Data</h1>
-                    <hr className=' pt-5' />
-                    <div>First Name : {formData.fName}</div>
-                    <div>Last Name : {formData.lName}</div>
-                    <div>Gender : {formData.gender === "M" ? "Male" : formData.gender == "F" ? "Female" : "Other"}{ }</div>
-                    <div>DOB : {formData.dob}{ }</div>
-                </div>}
-                {selectedNav.contact && <div>
-                    <h1 className='text-2xl'>Contact Data</h1>
-                    <hr />
-
-                </div>}
-                {selectedNav.education && <div>
-                    <h1 className='text-2xl'>Education Data</h1>
-                    <hr />
-
-                </div>}
             </div>
-        </div>
+
+        </>
     )
 }
 

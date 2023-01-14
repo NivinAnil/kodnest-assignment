@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import HandleRoutes from '../components/HandleRoutes';
+import Loading from '../components/Loading';
 
 export const SignUp = () => {
     const navigate = useNavigate();
-
+    const [clicked, SetClicked] = useState(false);
     const [signupInfo, setSignupInfo] = useState({
         name: '',
         email: '',
@@ -92,6 +93,7 @@ export const SignUp = () => {
                             required
                             value={signupInfo.name}
                             onChange={(e) => {
+
                                 setSignupInfo({ ...signupInfo, name: e.target.value });
                             }}
                         />
@@ -140,13 +142,15 @@ export const SignUp = () => {
                 </div>
                 <div className="flex flex-wrap justify-around">
                     <button
-                        className="shadow bg-blue-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                        className="shadow disabled:text-gray-700 disabled:bg-gray-300 bg-blue-400 border-purple-200 hover:bg-blue-600 hover:text-white focus:shadow-outline focus:outline-none  font-bold py-2 px-4 rounded"
                         type="button"
                         onClick={() => {
+                            SetClicked(true)
                             submitSignupForm();
+                            SetClicked(false)
                         }}
                     >
-                        Register
+                        {clicked ? <Loading /> : "Register"}
                     </button>
                 </div>
                 <div className='text-center pt-5'>

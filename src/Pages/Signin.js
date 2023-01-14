@@ -5,13 +5,14 @@ import validator from 'validator';
 import Form from '../components/Form';
 import FormLabel from '../components/FormLabel';
 import HandleRoutes from '../components/HandleRoutes';
+import Loading from '../components/Loading';
 import { auth } from '../firebase';
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [signInInfo, setSignInInfo] = useState({ email: '', password: '' });
     const [errorMessage, setErrorMessage] = useState(null);
-
+    const [clicked, setClicked] = useState(false)
 
     const validateForm = () => {
 
@@ -40,7 +41,7 @@ const SignIn = () => {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    navigate(HandleRoutes.HOME);
+                    navigate(HandleRoutes.DASHBOARD);
                     console.log(user);
                 })
                 .catch((error) => {
@@ -103,11 +104,17 @@ const SignIn = () => {
                 </div>
                 <div className="flex flex-wrap justify-around">
                     <button
-                        className="shadow bg-blue-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                        className="shadow disabled:text-gray-700 disabled:bg-gray-300 bg-blue-400 border-purple-200 hover:bg-blue-600 hover:text-white focus:shadow-outline focus:outline-none  font-bold py-2 px-4 rounded"
                         type="button"
-                        onClick={() => { submitSignInForm() }}
+                        disabled={clicked}
+                        onClick={() => {
+                            setClicked(true)
+                            submitSignInForm()
+                            setClicked(false)
+
+                        }}
                     >
-                        Login
+                        {clicked ? <Loading /> : "Login"}
                     </button>
                 </div>
                 <div className='text-center pt-5'>

@@ -1,9 +1,9 @@
-const HandleRoutes = {
+const routes = {
     SIGNIN: '/signin',
     SIGNUP: '/signup',
-    HOME: '/',
+    HOME: '/home',
     FORM: '/form',
-    DASHBOARD: '/dashboard'
+    DASHBOARD: '/'
 }
 
-export default HandleRoutes;
+export default routes;

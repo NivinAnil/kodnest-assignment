@@ -101,7 +101,7 @@ const StepForm = () => {
         set(ref(db, 'users/' + uid), {
             ...formData
         }).then(() => {
-            navigate(HandleRoutes.HOME)
+            navigate(HandleRoutes.DASHBOARD)
         }).catch((e) => { console.log(e); });
 
 

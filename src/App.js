@@ -31,7 +31,7 @@ function App() {
 
 
   return (
-    <div className="h-screen">
+    <div className="h-screen overflow-x-hidden">
       <Router>
         <Header isLoggedIn={isLoggedIn} />
         <Routes>
