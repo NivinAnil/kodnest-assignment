@@ -62,15 +62,17 @@ const Dashboard = () => {
         });
 
 
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <>
             <div className='h-[89vh] flex flex-row'>
-                <aside className="w-1/6 top-0" aria-label="Sidebar">
+                <aside className="w-1/6 top-0 md:w-[25%]" aria-label="Sidebar">
                     <div className="px-3 py-4  bg-blue-200 h-full">
                         <h1 className='text-center uppercase'>Details</h1>
-                        <hr className='border-blue-500 font-semibold ' />
-                        <ul className="space-y-2">
+                        <hr className='border-blue-500 font-semibold pb-2' />
+                        <ul className="space-y-2 text-left">
                             <NavLabel title="Personal"
                                 selected={selectedNav.person}
                                 onClick={() => { setSelectedNav({ person: true }) }} >
@@ -92,7 +94,7 @@ const Dashboard = () => {
                     </div>
                 </aside>
 
-                <div className='p-10 w-5/6 bg-blue-100 m-20 shadow-xl rounded-xl'>
+                <div className='p-10 xl:m-20 m-2 md:m-5 w-5/6 bg-blue-100  shadow-xl rounded-xl'>
                     <div className=' text-right text-blue-400 hover:text-blue-700 cursor-pointer underline'> <Link to="/form">Edit</Link></div>
                     {selectedNav.person && <ProfilePage data={formData} />}
                     {selectedNav.contact && <ContactPage data={formData} />}
