@@ -6,14 +6,16 @@ import { getAuth } from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
+
 const firebaseConfig = {
-    apiKey: "AIzaSyBNSb3ENabycQEQybhVSrUNQhytJyU1qb8",
-    authDomain: "kodnest-dev.firebaseapp.com",
-    databaseURL: "https://kodnest-dev-default-rtdb.firebaseio.com",
-    projectId: "kodnest-dev",
-    storageBucket: "kodnest-dev.appspot.com",
-    messagingSenderId: "368723037845",
-    appId: "1:368723037845:web:4bab8e2b02634d168d159c"
+    apiKey: process.env.REACT_APP_KEY,
+    authDomain: process.env.REACT_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SEND_ID,
+    appId: process.env.REACT_APP_APP_ID
 };
 
 // Initialize Firebase

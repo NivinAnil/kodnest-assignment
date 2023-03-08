@@ -31,6 +31,8 @@ const EduForm = ({ formData, SetFormData, setNext }) => {
         const val = validate()
         console.log(val);
         setNext(val);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formData])
 
 
@@ -83,7 +85,7 @@ const EduForm = ({ formData, SetFormData, setNext }) => {
                             })
 
                             const mark = e.target.value;
-                            if (!validator.isNumeric(mark)) {
+                            if (!validator.isNumeric(mark) || mark < 0) {
                                 setError({ ...error, mark10th: "Provide valid percentage" })
                                 setErrorCheck({ ...errorCheck, mark10th: true })
                             }
@@ -143,7 +145,7 @@ const EduForm = ({ formData, SetFormData, setNext }) => {
                                 ...formData, mark12th: e.target.value
                             })
                             const mark = e.target.value;
-                            if (!validator.isNumeric(mark)) {
+                            if (!validator.isNumeric(mark) || mark < 0) {
                                 setError({ ...error, mark12th: "Provide valid percentage" })
                                 setErrorCheck({ ...errorCheck, mark12th: true })
 
@@ -206,7 +208,7 @@ const EduForm = ({ formData, SetFormData, setNext }) => {
                         onChange={(e) => {
                             SetFormData({ ...formData, markDeg: e.target.value })
                             const mark = e.target.value;
-                            if (!validator.isNumeric(mark)) {
+                            if (!validator.isNumeric(mark) || mark < 0) {
                                 setError({ ...error, markDeg: "Provide valid percentage" })
                                 setErrorCheck({ ...errorCheck, markDeg: true })
 

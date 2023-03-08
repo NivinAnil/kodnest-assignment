@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormLabel from '../components/FormLabel';
 import validator from 'validator';
 import Form from '../components/Form';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import HandleRoutes from '../components/HandleRoutes';
 import Loading from '../components/Loading';
@@ -16,10 +16,16 @@ export const SignUp = () => {
         email: '',
         password: ''
     });
-
     const [errorMessage, setErrorMessage] = useState(null);
 
-
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate(HandleRoutes.DASHBOARD);
+            }
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     // form Validation
     const validateForm = () => {
@@ -160,7 +166,6 @@ export const SignUp = () => {
                         }}
                     >Sign In</span>
                 </div>
-
             </Form>
 
 

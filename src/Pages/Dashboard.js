@@ -37,10 +37,11 @@ const Dashboard = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-
+                console.log(user);
                 const uid = user.uid;
                 const dbRef = ref(db);
                 get(child(dbRef, `users/${uid}`)).then((snapshot) => {
+                    console.log({ snapshot })
                     if (snapshot.exists()) {
                         const profile = snapshot.val();
                         SetFormData({ ...profile });
@@ -60,14 +61,12 @@ const Dashboard = () => {
             }
 
         });
-
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <>
-            <div className='h-[89vh] flex flex-row'>
+            <div className='h-[89.9vh] flex flex-row'>
                 <aside className="w-1/6 top-0 md:w-[25%]" aria-label="Sidebar">
                     <div className="px-3 py-4  bg-blue-200 h-full">
                         <h1 className='text-center uppercase'>Details</h1>
@@ -99,9 +98,7 @@ const Dashboard = () => {
                     {selectedNav.person && <ProfilePage data={formData} />}
                     {selectedNav.contact && <ContactPage data={formData} />}
                     {selectedNav.education && <EducationPage data={formData} />}
-
                 </div>
-
             </div>
 
         </>

@@ -1,5 +1,5 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react'
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import Form from '../components/Form';
@@ -13,6 +13,16 @@ const SignIn = () => {
     const [signInInfo, setSignInInfo] = useState({ email: '', password: '' });
     const [errorMessage, setErrorMessage] = useState(null);
     const [clicked, setClicked] = useState(false)
+
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate(HandleRoutes.DASHBOARD);
+            }
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const validateForm = () => {
 
@@ -39,10 +49,10 @@ const SignIn = () => {
             console.log(signInInfo);
             signInWithEmailAndPassword(auth, signInInfo.email, signInInfo.password)
                 .then((userCredential) => {
+                    console.log(userCredential);
                     // Signed in
-                    const user = userCredential.user;
                     navigate(HandleRoutes.DASHBOARD);
-                    console.log(user);
+                    // console.log(user);
                 })
                 .catch((error) => {
                     console.log(error)

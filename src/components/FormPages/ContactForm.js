@@ -17,11 +17,17 @@ const ContactForm = ({ formData, SetFormData, setNext }) => {
 
 
     const validate = () => {
+        if (!formData.address) {
+            return true;
+        }
+        if (formData.pno === "+91") {
+            return true;
+        }
         return (errorCheck.pno || errorCheck.address || errorCheck.email)
     }
 
     useEffect(() => {
-        const val = validate()
+        const val = validate();
         console.log(val);
         setNext(val);
     }, [formData])
